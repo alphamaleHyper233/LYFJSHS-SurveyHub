@@ -51,7 +51,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="/test/settings.html">Settings</a></li>
+            <li><a class="dropdown-item" href="settings.html">Settings</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
           </ul>
@@ -262,7 +262,7 @@ function attachButtonEvents(container){
       const title = btn.dataset.title;
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
-      window.location.href = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+      window.location.href = `${window.location.origin}view-survey.html?title=${title}&desc=${desc}&link=${link}`;
     });
   });
 
@@ -271,7 +271,7 @@ function attachButtonEvents(container){
       const title = btn.dataset.title;
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
-      const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+      const shareURL = `${window.location.origin}view-survey.html?title=${title}&desc=${desc}&link=${link}`;
 
       navigator.clipboard.writeText(shareURL);
 
@@ -308,3 +308,4 @@ function applyFilters(){
 </script>
 </body>
 </html>
+
