@@ -13,20 +13,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    :root {
-      --bg: #121212;
-      --text: #f4f4f4;
-      --card-bg: #1e1e1e;
-      --card-text: #e0e0e0;
-      --btn-bg: #007bff;
-      --btn-hover: #0056b3;
-    }
+    body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color: var(--bg);color: var(--text);transition: background 0.3s ease, color 0.3s ease;}
+    :root {--bg: #121212;--text: #f4f4f4;--card-bg: #1e1e1e;--card-text: #e0e0e0;--btn-bg: #007bff;--btn-hover: #0056b3;}
     body.light {
       --bg: #f4f6f9;
       --text: #222;
@@ -188,47 +176,47 @@
     });
 
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-YWTeGWQSC8TH-UlRIRb7RPaJtX-Qum-RdPJBlc1n_d49XKHFDreC9XNPmww5zkAmGBB8NNrsYILE/pub?gid=2015938335&single=true&output=csv";
-    let surveys = [];
+let surveys = [];
 
-    function parseCSV(text){
-      const rows = [];
-      let current = [], inQuotes = false, value = "";
-      for(let i=0;i<text.length;i++){
-        const char = text[i];
-        if(char=='"' && text[i+1]=='"'){ value+='"'; i++; }
-        else if(char=='"'){ inQuotes=!inQuotes; }
-        else if(char==',' && !inQuotes){ current.push(value.trim()); value=""; }
-        else if((char=='\n'||char=='\r') && !inQuotes){
-          if(char=='\r'&&text[i+1]=='\n'){ i++; }
-          current.push(value.trim());
-          if(current.length>1) rows.push(current);
-          current=[]; value="";
-        } else { value+=char; }
-      }
-      if(value || current.length) current.push(value.trim());
-      if(current.length) rows.push(current);
-      return rows;
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  return lines.map(line => {
+    // Split CSV respecting quotes
+    const pattern = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
+    const row = [];
+    let match;
+    while((match = pattern.exec(line)) !== null){
+      let val = match[1];
+      if(val.startsWith('"') && val.endsWith('"')) val = val.slice(1,-1).replace(/""/g,'"');
+      row.push(val);
     }
+    return row;
+  });
+}
 
-    fetch(sheetURL)
-      .then(res => res.text())
-      .then(csv => {
-        const rows = parseCSV(csv);
-        rows.shift(); // remove header
-        surveys = rows.map((r,i)=>({
-          id: i+1,
-          title: r[0],
-          description: r[1],
-          strand: r[2],
-          link: r[3],
-          featured: r[4]?.trim().toLowerCase() === "yes" ? "yes" : "no",
-          verified: r[5]?.trim().toLowerCase() === "yes" ? "yes" : "no",
-          expired: r[6]?.trim().toLowerCase() === "yes" ? "yes" : "no"
-        })).filter(s => s.title && s.link);
+fetch(sheetURL)
+  .then(res => res.text())
+  .then(csv => {
+    const rows = parseCSV(csv);
+    rows.shift(); // remove header
+    surveys = rows.map((r,i)=>({
+      id: i+1,
+      title: r[0],
+      description: r[1],
+      strand: r[2],
+      link: r[3],
+      featured: r[4]?.trim().toLowerCase() === "yes" ? "yes" : "no",
+      verified: r[5]?.trim().toLowerCase() === "yes" ? "yes" : "no",
+      expired: r[6]?.trim().toLowerCase() === "yes" ? "yes" : "no"
+    })).filter(s => s.title && s.link);
 
-        renderFeaturedSurveys();
-        renderSurveys(surveys);
-      });
+    renderFeaturedSurveys();
+    renderSurveys(surveys);
+  })
+  .catch(err => {
+    console.error("Failed to fetch or parse sheet:", err);
+    document.getElementById("survey-container").innerHTML = "<p class='text-danger'>Failed to load surveys. Check your sheet URL.</p>";
+  });
 
     function renderFeaturedSurveys(){
       const container = document.getElementById("featured-surveys");
@@ -354,6 +342,7 @@
   </script>
 </body>
 </html>
+
 
 
 
