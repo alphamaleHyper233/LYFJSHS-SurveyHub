@@ -151,29 +151,44 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const toastEl = document.getElementById('phpToast');
-      const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+document.addEventListener("DOMContentLoaded", () => {
+  const toastEl = document.getElementById('phpToast');
+  const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
 
-      const phpLinks = [
-        '.nav-item.dropdown a.dropdown-item[href="#"]',
-        '.nav-item.dropdown.me-3 a.nav-link'
-      ];
+  const phpLinks = [
+    '.nav-item.dropdown a.dropdown-item[href="#"]',
+    '.nav-item.dropdown.me-3 a.nav-link'
+  ];
 
-      phpLinks.forEach(selector => {
-        document.querySelectorAll(selector).forEach(el => {
-          el.addEventListener("click", (e) => {
-            e.preventDefault();
-            toast.show();
-          });
-        });
+  phpLinks.forEach(selector => {
+    document.querySelectorAll(selector).forEach(el => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        toast.show();
       });
-
-      const theme = localStorage.getItem("theme");
-      const textSize = localStorage.getItem("textSize") || "medium";
-      if (theme === "light") document.body.classList.add("light");
-      document.body.style.fontSize = textSize === "small" ? "14px" : textSize === "large" ? "20px" : "16px";
     });
+  });
+
+  const theme = localStorage.getItem("theme");
+  const textSize = localStorage.getItem("textSize") || "medium";
+  if (theme === "light") document.body.classList.add("light");
+
+  // Determine font size
+  let fontSize;
+  if (textSize === "small") fontSize = "14px";
+  else if (textSize === "large") fontSize = "20px";
+  else fontSize = "16px";
+
+  // Apply font size to body
+  document.body.style.fontSize = fontSize;
+
+  // ALSO apply font size to navbar, inputs, and selects
+  const nav = document.querySelector(".navbar");
+  if (nav) nav.style.fontSize = fontSize;
+
+  const inputs = document.querySelectorAll(".form-control, .form-select");
+  inputs.forEach(i => i.style.fontSize = fontSize);
+});
 
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-YWTeGWQSC8TH-UlRIRb7RPaJtX-Qum-RdPJBlc1n_d49XKHFDreC9XNPmww5zkAmGBB8NNrsYILE/pub?gid=2015938335&single=true&output=csv";
 let surveys = [];
@@ -342,6 +357,7 @@ fetch(sheetURL)
   </script>
 </body>
 </html>
+
 
 
 
