@@ -119,16 +119,14 @@
 </div>
 
 <script>
-<script>
 document.addEventListener("DOMContentLoaded", () => {
+  // Toast for PHP features
   const toastEl = document.getElementById('phpToast');
   const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-
   const phpLinks = [
     '.nav-item.dropdown a.dropdown-item[href="#"]', 
     '.nav-item.dropdown.me-3 a.nav-link'           
   ];
-
   phpLinks.forEach(selector => {
     document.querySelectorAll(selector).forEach(el => {
       el.addEventListener("click", (e) => {
@@ -138,12 +136,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const theme = localStorage.getItem("theme");
-  const textSize = localStorage.getItem("textSize") || "medium";
-  if (theme === "light") document.body.classList.add("light");
-  document.body.style.fontSize = textSize === "small" ? "14px" : textSize === "large" ? "20px" : "16px";
+  applyTheme();
+  applyTextSize();
 });
 
+// === Theme and Text Size ===
+function applyTheme() {
+  const theme = localStorage.getItem("theme") || "dark";
+  if (theme === "light") document.body.classList.add("light");
+  else document.body.classList.remove("light");
+}
+
+function applyTextSize() {
+  const textSize = localStorage.getItem("textSize") || "medium";
+  document.body.style.fontSize = textSize === "small" ? "14px" : textSize === "large" ? "20px" : "16px";
+}
+
+// === Google Sheet and Survey Data ===
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-YWTeGWQSC8TH-UlRIRb7RPaJtX-Qum-RdPJBlc1n_d49XKHFDreC9XNPmww5zkAmGBB8NNrsYILE/pub?gid=2015938335&single=true&output=csv";
 let surveys = [];
 
@@ -187,25 +196,28 @@ fetch(sheetURL)
     renderSurveys(surveys);
   });
 
-// Render featured surveys on page load
-function renderFeaturedSurveys() {
+// === Render Featured Surveys ===
+function renderFeaturedSurveys(){
   const container = document.getElementById("featured-surveys");
   const titleElem = document.getElementById("featured-title");
-  const featuredList = surveys.filter(s => s.featured === "yes");
-
+  const featuredList = surveys.filter(s => s.featured==="yes");
+  
   if(featuredList.length === 0){
     container.innerHTML = "";
     titleElem.style.display = "none";
     return;
   }
 
+  container.style.display = "grid";
+  titleElem.style.display = "block";
   container.innerHTML = "";
-  featuredList.forEach(s => {
-    const expiredClass = s.expired === "yes" ? "expired" : "";
-    const verifiedTag = s.verified === "yes" ? '<i class="fa-solid fa-check verified" title="Verified"></i>' : '';
+
+  featuredList.forEach(s=>{
+    const expiredClass = s.expired==="yes" ? "expired" : "";
+    const verifiedTag = s.verified==="yes" ? '<i class="fa-solid fa-check verified" title="Verified"></i>' : '';
     const featuredBadge = '<span class="badge featured-badge">Featured</span>';
 
-    container.innerHTML += `
+    container.innerHTML+=`
       <div class="survey-card ${expiredClass}">
         <h5>${s.title} ${verifiedTag} ${featuredBadge}</h5>
         <p class="strand"><b>Strand:</b> ${s.strand || "N/A"}</p>
@@ -226,16 +238,15 @@ function renderFeaturedSurveys() {
   attachButtonEvents(container);
 }
 
-// Render surveys (featured or filtered)
+// === Render All Surveys ===
 function renderSurveys(list){
-  const container = document.getElementById("survey-container");
-  container.innerHTML = "";
-  list.forEach(s => {
-    const expiredClass = s.expired === "yes" ? "expired" : "";
-    const featuredBadge = s.featured === "yes" ? '<span class="badge featured-badge">Featured</span>' : '';
-    const verifiedTag = s.verified === "yes" ? '<i class="fa-solid fa-check verified" title="Verified"></i>' : '';
-
-    container.innerHTML += `
+  const container=document.getElementById("survey-container");
+  container.innerHTML="";
+  list.forEach(s=>{
+    const expiredClass = s.expired==="yes" ? "expired" : "";
+    const featuredBadge = s.featured==="yes" ? '<span class="badge featured-badge">Featured</span>' : '';
+    const verifiedTag = s.verified==="yes" ? '<i class="fa-solid fa-check verified" title="Verified"></i>' : '';
+    container.innerHTML+=`
       <div class="survey-card ${expiredClass}">
         <h5>${s.title} ${verifiedTag}</h5>
         <p class="strand"><b>Strand:</b> ${s.strand || "N/A"} ${featuredBadge}</p>
@@ -255,7 +266,7 @@ function renderSurveys(list){
   attachButtonEvents(container);
 }
 
-// Add click events
+// === Attach Buttons ===
 function attachButtonEvents(container){
   container.querySelectorAll(".take-btn").forEach(btn=>{
     btn.addEventListener("click", ()=>{
@@ -282,11 +293,10 @@ function attachButtonEvents(container){
   });
 }
 
-// Event listeners for filters
+// === Filters ===
 document.getElementById("search").addEventListener("input", applyFilters);
 document.getElementById("strandFilter").addEventListener("change", applyFilters);
 
-// Apply filters
 function applyFilters() {
   const query = document.getElementById("search").value.toLowerCase();
   const strand = document.getElementById("strandFilter").value;
@@ -296,12 +306,14 @@ function applyFilters() {
     (s.description && s.description.toLowerCase().includes(query))
   );
 
-  if (strand !== "All") filtered = filtered.filter(s => s.strand === strand);
+  if (strand !== "All") {
+    filtered = filtered.filter(s => s.strand === strand);
+  }
 
   const featuredContainer = document.getElementById("featured-surveys");
   const featuredTitle = document.getElementById("featured-title");
 
-  // Hide featured if filtering by search or strand
+  // Hide featured if any filter applied
   if (query.trim() !== "" || strand !== "All") {
     featuredContainer.style.display = "none";
     featuredTitle.style.display = "none";
@@ -311,10 +323,17 @@ function applyFilters() {
   }
 
   renderSurveys(filtered);
+
+  // Only render featured surveys if no filter applied
+  if (query.trim() === "" && strand === "All") {
+    renderFeaturedSurveys();
+  }
 }
 </script>
+
 </body>
 </html>
+
 
 
 
