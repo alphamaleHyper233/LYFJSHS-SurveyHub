@@ -286,27 +286,7 @@ function attachButtonEvents(container){
 document.getElementById("search").addEventListener("input", applyFilters);
 document.getElementById("strandFilter").addEventListener("change", applyFilters);
 
-function applyFilters(){
-  const query=document.getElementById("search").value.toLowerCase();
-  const strand=document.getElementById("strandFilter").value;
-  let filtered=surveys.filter(s=>
-    (s.title && s.title.toLowerCase().includes(query))||
-    (s.description && s.description.toLowerCase().includes(query))
-  );
-  if(strand!=="All") filtered=filtered.filter(s=>s.strand===strand);
-
-  const featuredContainer = document.getElementById("featured-surveys");
-  const featuredTitle = document.getElementById("featured-title");
-  if(query.trim().length > 0){
-    featuredContainer.style.display = "none";
-    featuredTitle.style.display = "none";
-  }
-
-  renderSurveys(filtered);
-  if(query.trim().length === 0) renderFeaturedSurveys(); 
-}
-
-  function applyFilters() {
+function applyFilters() {
   const query = document.getElementById("search").value.toLowerCase();
   const strand = document.getElementById("strandFilter").value;
 
@@ -320,11 +300,11 @@ function applyFilters(){
     filtered = filtered.filter(s => s.strand === strand);
   }
 
-  // Hide featured surveys if search is not empty or strand is filtered
+  // Hide featured surveys if any filter is applied
   const featuredContainer = document.getElementById("featured-surveys");
   const featuredTitle = document.getElementById("featured-title");
 
-  if (query.trim().length > 0 || strand !== "All") {
+  if (query.trim() !== "" || strand !== "All") {
     featuredContainer.style.display = "none";
     featuredTitle.style.display = "none";
   } else {
@@ -332,10 +312,11 @@ function applyFilters(){
     featuredTitle.style.display = "block";
   }
 
+  // Render filtered surveys
   renderSurveys(filtered);
 
-  // Render featured surveys only if no filters applied
-  if (query.trim().length === 0 && strand === "All") {
+  // Render featured surveys only when no filter applied
+  if (query.trim() === "" && strand === "All") {
     renderFeaturedSurveys();
   }
 }
@@ -343,6 +324,7 @@ function applyFilters(){
 </script>
 </body>
 </html>
+
 
 
 
