@@ -263,12 +263,13 @@ function attachButtonEvents(container){
  container.querySelectorAll(".share-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const title1 = decodeURIComponent(btn.dataset.title);
+    const desc1 = decodeURIComponent(btn.dataset.desc);
     const title = btn.dataset.title;
     const desc = btn.dataset.desc;
     const link = btn.dataset.link;
 
     const shareURL = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
-    const message = `${shareURL} \n \n Check out this research survey: " ${title1} " \n " ${desc} " `;
+    const message = `${shareURL} \n \n Check out this research survey: " ${title1} " \n " ${desc1} " `;
 
     navigator.clipboard.writeText(message)
       .then(() => {
@@ -326,3 +327,4 @@ function applyFilters() {
 </script>
 </body>
 </html>
+
