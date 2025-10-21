@@ -262,13 +262,11 @@ function attachButtonEvents(container){
 
   container.querySelectorAll(".share-btn").forEach(btn=>{
     btn.addEventListener("click", ()=>{
-      const title1 = decodeURIComponent(btn.dataset.title);
       const title = btn.dataset.title;
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
       
-      const shareURL = `Check out this research survey: " ${title1} "\n${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
-      const message = `Check out this research survey: " ${title1} "\n${shareURL}`;
+      const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
 
       navigator.clipboard.writeText(shareURL);
 
@@ -323,5 +321,6 @@ function applyFilters() {
 </script>
 </body>
 </html>
+
 
 
