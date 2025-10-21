@@ -284,10 +284,16 @@ function applyFilters(){
   const query=document.getElementById("search").value.toLowerCase();
   const strand=document.getElementById("strandFilter").value;
   let filtered=surveys.filter(s=>
-    (s.title && s.title.toLowerCase().includes(query))||
-    (s.description && s.description.toLowerCase().includes(query))
+    (s.title && s.title.toLowerCase().includes(query))
   );
-  if(strand!=="All") filtered=filtered.filter(s=>s.strand===strand);
+  if (strand !== "All") {
+  filtered = filtered.filter(s => s.strand === strand);
+  document.getElementById("featured-title").style.display = "none";
+  document.getElementById("featured-surveys").style.display = "none";
+} else {
+  document.getElementById("featured-title").style.display = "block";
+  document.getElementById("featured-surveys").style.display = "block";
+}
 
   const featuredContainer = document.getElementById("featured-surveys");
   const featuredTitle = document.getElementById("featured-title");
@@ -302,6 +308,7 @@ function applyFilters(){
 </script>
 </body>
 </html>
+
 
 
 
