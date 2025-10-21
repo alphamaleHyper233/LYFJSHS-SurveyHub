@@ -267,10 +267,10 @@ function attachButtonEvents(container){
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
       
-      const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+      const shareURL = `Check out this research survey: " ${title1} "\n${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
       const message = `Check out this research survey: " ${title1} "\n${shareURL}`;
 
-      navigator.clipboard.writeText(message);
+      navigator.clipboard.writeText(shareURL);
 
       const toastEl = document.getElementById("linkToast");
       const toast = new bootstrap.Toast(toastEl);
