@@ -262,21 +262,22 @@ function attachButtonEvents(container){
 
  container.querySelectorAll(".share-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    const title1 = decodeURIComponent(btn.dataset.title);
     const title = btn.dataset.title;
     const desc = btn.dataset.desc;
     const link = btn.dataset.link;
 
-    // ✅ Correct GitHub Pages path
     const shareURL = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+    const message = `${shareURL} \n Check out this research survey: " ${title1} "`;
 
-    navigator.clipboard.writeText(shareURL)
+    navigator.clipboard.writeText(message)
       .then(() => {
         const toastEl = document.getElementById("linkToast");
         const toast = new bootstrap.Toast(toastEl);
         toast.show();
-        console.log("📋 Copied:", shareURL);
+        console.log(" Copied:", shareURL);
       })
-      .catch(err => console.error("❌ Failed to copy:", err));
+      .catch(err => console.error(" Failed to copy:", err));
   });
 });
 }
@@ -325,6 +326,7 @@ function applyFilters() {
 </script>
 </body>
 </html>
+
 
 
 
