@@ -31,7 +31,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-      <a class="navbar-brand fw-bold text-white" href="main-survey-platform.html">
+      <a class="navbar-brand fw-bold text-white" href="index.html">
         <i class="fa-solid fa-chart-pie me-2"></i>SurveyHub
       </a>
       <div class="d-flex align-items-center">
@@ -45,16 +45,11 @@
             <li><a class="dropdown-item" href="#">No new notifications</a></li>
           </ul>
         </div>
-        <div class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="fa-regular fa-user fa-lg me-1"></i> Account
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="/test/settings.html">Settings</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
-          </ul>
+        <div class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center" href="settings.html">
+              ⚙ Settings
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -263,7 +258,7 @@ function attachButtonEvents(container){
       const title = btn.dataset.title;
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
-      window.location.href = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+      window.location.href = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/test/index.html?title=${title}&desc=${desc}&link=${link}`;
     });
   });
 
@@ -272,7 +267,7 @@ function attachButtonEvents(container){
       const title = btn.dataset.title;
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
-      const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+      const shareURL = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/index.html?title=${title}&desc=${desc}&link=${link}`;
 
       navigator.clipboard.writeText(shareURL);
 
@@ -327,3 +322,4 @@ function applyFilters() {
 </script>
 </body>
 </html>
+
