@@ -31,7 +31,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-      <a class="navbar-brand fw-bold text-white" href="index.html">
+      <a class="navbar-brand fw-bold text-white" href="main-survey-platform.html">
         <i class="fa-solid fa-chart-pie me-2"></i>SurveyHub
       </a>
       <div class="d-flex align-items-center">
@@ -45,10 +45,16 @@
             <li><a class="dropdown-item" href="#">No new notifications</a></li>
           </ul>
         </div>
-        <div class="nav-item">
-          <a class="nav-link fw-bold text-white d-flex align-items-center" href="settings.html">
-            ⚙ Settings
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="fa-regular fa-user fa-lg me-1"></i> Account
           </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="/test/settings.html">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -72,19 +78,20 @@
       </a>
     </div>
 
-    <h4 id="featured-title" class="mb-3">Featured Surveys</h4>
-    <div class="d-flex flex-wrap mb-4" style="gap: 20px;">
+    <div id="featured-section">
+  <h4 id="featured-title" class="mb-3">Featured Surveys</h4>
+  <div class="d-flex flex-wrap mb-4" style="gap: 20px;">
+    <div id="featured-surveys" class="survey-container" style="flex: 1 1 50%; min-width: 280px;"></div>
 
-      <div id="featured-surveys" class="survey-container" style="flex: 1 1 50%; min-width: 280px;"></div>
-
-      <div class="important-message p-3 border rounded" style="flex: 1 1 50%; min-width: 250px;">
-        <h5>Important Message</h5>
-        <p>The other Functions like Logout, Register, Login, Notif and Profile Buttons cannot be used full PHP functionality cannot be published on free hosting platforms but you could Customize the settings.
-          
-          ⚠️Dont Submit any Link with Absurd content. We could record Malicious activity
-        </p>
-      </div>
+    <div class="important-message p-3 border rounded" style="flex: 1 1 50%; min-width: 250px;">
+      <h5>Important Message</h5>
+      <p>The other Functions like Logout, Register, Login, Notif and Profile Buttons cannot be used full PHP functionality cannot be published on free hosting platforms but you could Customize the settings.
+        ⚠️Dont Submit any Link with Absurd content. We could record Malicious activity
+      </p>
     </div>
+  </div>
+</div>
+
 
     <h4 class="mb-3">All Surveys</h4>
     <div id="survey-container" class="survey-container"></div>
@@ -256,7 +263,7 @@ function attachButtonEvents(container){
       const title = btn.dataset.title;
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
-      window.location.href = `${window.location.origin}/LYFJSHS-SurveyHub/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+      window.location.href = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
     });
   });
 
@@ -265,7 +272,7 @@ function attachButtonEvents(container){
       const title = btn.dataset.title;
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
-     const shareURL = `${window.location.origin}/LYFJSHS-SurveyHub/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+      const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
 
       navigator.clipboard.writeText(shareURL);
 
@@ -280,36 +287,27 @@ function attachButtonEvents(container){
 document.getElementById("search").addEventListener("input", applyFilters);
 document.getElementById("strandFilter").addEventListener("change", applyFilters);
 
-function applyFilters(){
-  const query=document.getElementById("search").value.toLowerCase();
-  const strand=document.getElementById("strandFilter").value;
-  let filtered=surveys.filter(s=>
-    (s.title && s.title.toLowerCase().includes(query))
+function applyFilters() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const strand = document.getElementById("strandFilter").value;
+  const featuredSection = document.getElementById("featured-section");
+  
+  let filtered = surveys.filter(s =>
+    s.title && s.title.toLowerCase().includes(query)
   );
-  if (strand !== "All") {
-  filtered = filtered.filter(s => s.strand === strand);
-  document.getElementById("featured-title").style.display = "none";
-  document.getElementById("featured-surveys").style.display = "none";
-} else {
-  document.getElementById("featured-title").style.display = "block";
-  document.getElementById("featured-surveys").style.display = "block";
-}
 
-  const featuredContainer = document.getElementById("featured-surveys");
-  const featuredTitle = document.getElementById("featured-title");
-  if(query.trim().length > 0){
-    featuredContainer.style.display = "none";
-    featuredTitle.style.display = "none";
+  if (strand !== "All") {
+    filtered = filtered.filter(s => s.strand === strand);
+    featuredSection.style.display = "none";
+  } else {
+    featuredSection.style.display = "block";
   }
 
-  renderSurveys(filtered);
-  if(query.trim().length === 0) renderFeaturedSurveys(); 
+  if (query.trim().length > 0) {
+    featuredSection.style.display = "none";
+  }
+
 }
 </script>
 </body>
 </html>
-
-
-
-
-
