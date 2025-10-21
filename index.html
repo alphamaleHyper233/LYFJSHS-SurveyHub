@@ -269,7 +269,7 @@ function attachButtonEvents(container){
     const link = btn.dataset.link;
 
     const shareURL = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
-    const message = `${shareURL} \n \n Check out this research survey: " ${title1} " \n \n ${desc1} `;
+    const message = `${shareURL} \n \n Check out this research survey: "${title1}" \n \n ${desc1} `;
 
     navigator.clipboard.writeText(message)
       .then(() => {
@@ -327,6 +327,7 @@ function applyFilters() {
 </script>
 </body>
 </html>
+
 
 
 
