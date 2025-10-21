@@ -260,21 +260,26 @@ function attachButtonEvents(container){
     });
   });
 
-  container.querySelectorAll(".share-btn").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const title = btn.dataset.title;
-      const desc = btn.dataset.desc;
-      const link = btn.dataset.link;
-      
-      const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+  container.querySelectorAll(".share-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const title = btn.dataset.title;
+    const desc = btn.dataset.desc;
+    const link = btn.dataset.link;
 
-      navigator.clipboard.writeText(shareURL);
+    const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
 
-      const toastEl = document.getElementById("linkToast");
-      const toast = new bootstrap.Toast(toastEl);
-      toast.show();
-    });
+    navigator.clipboard.writeText(shareURL)
+      .then(() => {
+        const toastEl = document.getElementById("linkToast");
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+        console.log("📋 Copied:", shareURL);
+      })
+      .catch(err => {
+        console.error("❌ Failed to copy:", err);
+      });
   });
+});
 }
 
 document.getElementById("search").addEventListener("input", applyFilters);
@@ -321,6 +326,7 @@ function applyFilters() {
 </script>
 </body>
 </html>
+
 
 
 
