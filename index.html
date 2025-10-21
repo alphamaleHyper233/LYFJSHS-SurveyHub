@@ -46,10 +46,9 @@
           </ul>
         </div>
         <div class="nav-item">
-            <a class="nav-link text-white d-flex align-items-center" href="settings.html">
-              ⚙ Settings
-            </a>
-          </div>
+          <a class="nav-link text-white d-flex align-items-center" href="settings.html">
+            ⚙ Settings
+          </a>
         </div>
       </div>
     </div>
@@ -73,21 +72,19 @@
       </a>
     </div>
 
-    <div id="featured-section">
-  <h4 id="featured-title" class="mb-3">Featured Surveys</h4>
-  <div class="d-flex flex-wrap mb-4" style="gap: 20px;">
-    <div id="featured-surveys" class="survey-container" style="flex: 1 1 50%; min-width: 280px;"></div>
+    <h4 id="featured-title" class="mb-3">Featured Surveys</h4>
+    <div class="d-flex flex-wrap mb-4" style="gap: 20px;">
 
-    <div class="important-message p-3 border rounded" style="flex: 1 1 50%; min-width: 250px;">
-      <h5>Important Message</h5>
-      <p>The other Functions like Logout, Register, Login, Notif and Profile Buttons cannot be used full PHP functionality cannot be published on free hosting platforms but you could Customize the settings.
-        
-        ⚠️Dont Submit any Link with Absurd content. We could record Malicious activity
-      </p>
+      <div id="featured-surveys" class="survey-container" style="flex: 1 1 50%; min-width: 280px;"></div>
+
+      <div class="important-message p-3 border rounded" style="flex: 1 1 50%; min-width: 250px;">
+        <h5>Important Message</h5>
+        <p>The other Functions like Logout, Register, Login, Notif and Profile Buttons cannot be used full PHP functionality cannot be published on free hosting platforms but you could Customize the settings.
+          
+          ⚠️Dont Submit any Link with Absurd content. We could record Malicious activity
+        </p>
+      </div>
     </div>
-  </div>
-</div>
-
 
     <h4 class="mb-3">All Surveys</h4>
     <div id="survey-container" class="survey-container"></div>
@@ -259,29 +256,28 @@ function attachButtonEvents(container){
       const title = btn.dataset.title;
       const desc = btn.dataset.desc;
       const link = btn.dataset.link;
-      window.location.href = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/test/index.html?title=${title}&desc=${desc}&link=${link}`;
+      window.location.href = `${window.location.origin}/LYFJSHS-SurveyHub/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
     });
   });
 
-  container.querySelectorAll(".share-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const title = decodeURIComponent(btn.dataset.title);
-    const desc = decodeURIComponent(btn.dataset.desc);
-    const link = decodeURIComponent(btn.dataset.link);
+  container.querySelectorAll(".share-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const title1 = decodeURIComponent(btn.dataset.title);
+      const title = btn.dataset.title;
+      const desc = btn.dataset.desc;
+      const link = btn.dataset.link;
+      
+      const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+      const message = `Check out this research survey: " ${title1} "\n${shareURL}`;
 
-    const shareURL = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/index.html?title=${encodeURIComponent(title)}&desc=${encodeURIComponent(desc)}&link=${encodeURIComponent(link)}`;
+      navigator.clipboard.writeText(message);
 
-    
-    const message = `Check out this research survey: "${title}"\n${shareURL}`;
-    navigator.clipboard.writeText(message);
-
-    const toastEl = document.getElementById("linkToast");
-    const toast = new bootstrap.Toast(toastEl);
-    toast.show();
-
-    console.log(" Copied message:", message);
+      const toastEl = document.getElementById("linkToast");
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    });
   });
-});
+}
 
 document.getElementById("search").addEventListener("input", applyFilters);
 document.getElementById("strandFilter").addEventListener("change", applyFilters);
@@ -319,6 +315,7 @@ function applyFilters() {
     featuredSection.style.display = "block";
   }
 
+
   renderSurveys(filtered);
 
   console.log("Final rendered surveys:", filtered.length);
@@ -326,6 +323,4 @@ function applyFilters() {
 </script>
 </body>
 </html>
-
-
 
