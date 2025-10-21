@@ -262,21 +262,26 @@ function attachButtonEvents(container){
     });
   });
 
-  container.querySelectorAll(".share-btn").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const title = btn.dataset.title;
-      const desc = btn.dataset.desc;
-      const link = btn.dataset.link;
-      const shareURL = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/index.html?title=${title}&desc=${desc}&link=${link}`;
+  container.querySelectorAll(".share-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const title = decodeURIComponent(btn.dataset.title);
+    const desc = decodeURIComponent(btn.dataset.desc);
+    const link = decodeURIComponent(btn.dataset.link);
 
-      navigator.clipboard.writeText(shareURL);
+    const shareURL = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/index.html?title=${encodeURIComponent(title)}&desc=${encodeURIComponent(desc)}&link=${encodeURIComponent(link)}`;
 
-      const toastEl = document.getElementById("linkToast");
-      const toast = new bootstrap.Toast(toastEl);
-      toast.show();
-    });
+    
+    const message = `Check out this research survey: "${title}"\n${shareURL}`;
+    navigator.clipboard.writeText(message);
+
+    const toastEl = document.getElementById("linkToast");
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
+
+    console.log(" Copied message:", message);
   });
-}
+});
+
 
 
 document.getElementById("search").addEventListener("input", applyFilters);
@@ -322,4 +327,5 @@ function applyFilters() {
 </script>
 </body>
 </html>
+
 
