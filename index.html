@@ -260,13 +260,14 @@ function attachButtonEvents(container){
     });
   });
 
-  container.querySelectorAll(".share-btn").forEach(btn => {
+ container.querySelectorAll(".share-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const title = btn.dataset.title;
     const desc = btn.dataset.desc;
     const link = btn.dataset.link;
 
-    const shareURL = `${window.location.origin}/test/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
+    // ✅ Correct GitHub Pages path
+    const shareURL = `https://alphamalehyper233.github.io/LYFJSHS-SurveyHub/view-survey.html?title=${title}&desc=${desc}&link=${link}`;
 
     navigator.clipboard.writeText(shareURL)
       .then(() => {
@@ -275,9 +276,7 @@ function attachButtonEvents(container){
         toast.show();
         console.log("📋 Copied:", shareURL);
       })
-      .catch(err => {
-        console.error("❌ Failed to copy:", err);
-      });
+      .catch(err => console.error("❌ Failed to copy:", err));
   });
 });
 }
@@ -326,6 +325,7 @@ function applyFilters() {
 </script>
 </body>
 </html>
+
 
 
 
