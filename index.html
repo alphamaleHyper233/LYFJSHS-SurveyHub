@@ -291,22 +291,38 @@ function applyFilters() {
   const query = document.getElementById("search").value.toLowerCase();
   const strand = document.getElementById("strandFilter").value;
   const featuredSection = document.getElementById("featured-section");
-  
-  let filtered = surveys.filter(s =>
-    s.title && s.title.toLowerCase().includes(query)
-  );
+
+  console.log("Search query:", query);
+  console.log("Selected strand:", strand);
+  console.log("All surveys:", surveys);
+
+  let filtered = surveys.filter(s => {
+    if (!s.title) return false;
+    const title = s.title.toLowerCase().trim();
+    const search = query.toLowerCase().trim();
+    return !search || title.includes(search);
+  });
+
+  console.log("After search filter:", filtered);
 
   if (strand !== "All") {
-    filtered = filtered.filter(s => s.strand === strand);
+    filtered = filtered.filter(s =>
+      (s.strand || "").toLowerCase() === strand.toLowerCase()
+    );
+    featuredSection.style.display = "none";
+  }
+
+  console.log("After strand filter:", filtered);
+
+  if (query.trim().length > 0 || strand !== "All") {
     featuredSection.style.display = "none";
   } else {
     featuredSection.style.display = "block";
   }
 
-  if (query.trim().length > 0) {
-    featuredSection.style.display = "none";
-  }
+  renderSurveys(filtered);
 
+  console.log("Final rendered surveys:", filtered.length);
 }
 </script>
 </body>
