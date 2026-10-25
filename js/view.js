@@ -1,4 +1,13 @@
-document.addEventListener("DOMContentLoaded", () => {
+  const styleLink =document.createElement('link');
+
+  styleLink.rel='stylesheet';
+  styleLink.type='text/css';
+  styleLink.href= '../css/view.css';
+
+  document.head.appendChild(styleLink);
+    
+    
+    document.addEventListener("DOMContentLoaded", () => {
       // Apply theme + font size
       const theme = localStorage.getItem("theme");
       const textSize = localStorage.getItem("textSize") || "medium";
